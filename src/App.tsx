@@ -11,22 +11,22 @@ function App() {
       type: 'video',
       url: 'https://www.w3schools.com/html/mov_bbb.mp4',
       user: 'deni_dev',
-      caption: 'Моё первое видео на React!'
+      caption: 'eka react video post'
     },
     {
       id: 2,
       type: 'image',
-      url: 'https://picsum.photos/450/450',
+      url: '../data/img/mountain.jpg',
       user: 'scool_project',
-      caption: 'Просто классная фотка'
+      caption: 'kiva kuva'
     }
   ]);
 
   return (
     <Router>
       <nav style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '15px', borderBottom: '1px solid #dbdbdb' }}>
-        <Link to="/">Лента</Link>
-        <Link to="/profile">Профиль</Link>
+        <Link to="/">Shorts</Link>
+        <Link to="/profile">Profile</Link>
       </nav>
 
       <Routes>
