@@ -1,39 +1,36 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import type { MediaItem } from './types';
-import MediaCard from './components/MediaCard';
-
-// Простые страницы-компоненты
-const Home = ({ items }: { items: MediaItem[] }) => (
-  <div>
-    <h2>Shorts</h2>
-    {items.map(i => <MediaCard key={i.id} item={i} />)}
-  </div>
-);
-
-const Profile = () => <h2>My Profil</h2>;
+import type { Post } from './types/VisualMedia';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
 
 function App() {
-  // Tilanhallinta (State)
-  const [media] = useState<MediaItem[]>([
-    { id: 1, title: 'Kuva', type: 'image', url: '../data/img/mountain.jpg', user: 'coder' },
-    { 
-      id: 1, 
-      title: 'kiva video', 
-      type: 'video', 
+  const [allPosts] = useState<Post[]>([
+    {
+      id: 1,
+      type: 'video',
       url: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      user: 'student_dev' 
+      user: 'deni_dev',
+      caption: 'Моё первое видео на React!'
     },
+    {
+      id: 2,
+      type: 'image',
+      url: 'https://picsum.photos/450/450',
+      user: 'scool_project',
+      caption: 'Просто классная фотка'
+    }
   ]);
 
   return (
     <Router>
-      <nav style={{ padding: '10px', background: '#eee' }}>
-        <Link to="/">Shorts</Link> | <Link to="/profile">Profile</Link>
+      <nav style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '15px', borderBottom: '1px solid #dbdbdb' }}>
+        <Link to="/">Лента</Link>
+        <Link to="/profile">Профиль</Link>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Home items={media} />} />
+        <Route path="/" element={<Home posts={allPosts} />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
