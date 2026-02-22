@@ -28,6 +28,7 @@ const Upload = () => {
       user: 'opiskelija_2026',
     };
 
+
     context.addPost(newPost);
     resetForm();
     navigate('/');

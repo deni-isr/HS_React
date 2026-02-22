@@ -8,10 +8,10 @@ function App() {
   return (
     <MediaProvider>
       <Router>
-        <nav style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '15px', borderBottom: '1px solid #dbdbdb' }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Etusivu</Link>
-          <Link to="/upload" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>+ Lisää</Link>
-          <Link to="/profile" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Profiili</Link>
+        <nav className="flex justify-center gap-6 p-5 bg-white border-b border-gray-200 sticky top-0 z-10">
+          <Link to="/" className="text-gray-700 hover:text-blue-500 font-semibold transition-colors">Etusivu</Link>
+          <Link to="/upload" className="text-gray-700 hover:text-blue-500 font-semibold transition-colors">+ Lisää</Link>
+          <Link to="/profile" className="text-gray-700 hover:text-blue-500 font-semibold transition-colors">Profiili</Link>
         </nav>
 
         <Routes>

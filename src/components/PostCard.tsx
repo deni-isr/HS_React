@@ -1,22 +1,25 @@
 import type { Post } from '../types/VisualMedia';
 
-interface Props {
-  post: Post;
-}
-
-const PostCard = ({ post }: Props) => {
+const PostCard = ({ post }: { post: Post }) => {
   return (
-    <div style={{ border: '1px solid #dbdbdb', margin: '20px auto', maxWidth: '450px', borderRadius: '8px' }}>
-      <div style={{ padding: '10px', fontWeight: 'bold' }}>@{post.user}</div>
+    <div className="max-w-md mx-auto my-6 bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+      <div className="p-4 border-b border-gray-100">
+        <span className="font-bold text-sm text-gray-800">{post.user}</span>
+      </div>
       
-      {post.type === 'video' ? (
-        <video src={post.url} controls style={{ width: '100%' }} />
-      ) : (
-        <img src={post.url} alt={post.caption} style={{ width: '100%' }} />
-      )}
-
-      <div style={{ padding: '10px' }}>
-        <p><strong>{post.user}</strong> {post.caption}</p>
+      <div className="aspect-square bg-gray-100 flex items-center justify-center">
+        {post.type === 'image' ? (
+          <img src={post.url} alt={post.caption} className="w-full h-full object-cover" />
+        ) : (
+          <video src={post.url} controls className="w-full h-full object-cover" />
+        )}
+      </div>
+      
+      <div className="p-4">
+        <p className="text-sm text-gray-700">
+          <span className="font-bold mr-2">{post.user}</span>
+          {post.caption}
+        </p>
       </div>
     </div>
   );
