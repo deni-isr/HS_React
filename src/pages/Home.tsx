@@ -1,15 +1,16 @@
-import type { Post } from '../types/VisualMedia';
+import { useContext } from 'react';
+import { MediaContext } from '../contexts/MediaContext';
 import PostCard from '../components/PostCard';
 
-interface Props {
-  posts: Post[];
-}
+const Home = () => {
+  const context = useContext(MediaContext);
 
-const Home = ({ posts }: Props) => {
+  if (!context) return <p>Ladataan...</p>;
+
   return (
     <div>
-      <h2 style={{ textAlign: 'center' }}>Shorts</h2>
-      {posts.map((item) => (
+      <h2 style={{ textAlign: 'center' }}>Etusivu</h2>
+      {context.posts.map((item) => (
         <PostCard key={item.id} post={item} />
       ))}
     </div>

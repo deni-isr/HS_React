@@ -1,39 +1,26 @@
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import type { Post } from './types/VisualMedia';
+import { MediaProvider } from './contexts/MediaContext';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import Upload from './pages/Upload.tsx';
 
 function App() {
-  const [allPosts] = useState<Post[]>([
-    {
-      id: 1,
-      type: 'video',
-      url: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      user: 'deni_dev',
-      caption: 'eka react video post'
-    },
-    {
-      id: 2,
-      type: 'image',
-      url: '../data/img/mountain.jpg',
-      user: 'scool_project',
-      caption: 'kiva kuva'
-    }
-  ]);
-
   return (
-    <Router>
-      <nav style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '15px', borderBottom: '1px solid #dbdbdb' }}>
-        <Link to="/">Shorts</Link>
-        <Link to="/profile">Profile</Link>
-      </nav>
+    <MediaProvider>
+      <Router>
+        <nav style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '15px', borderBottom: '1px solid #dbdbdb' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Etusivu</Link>
+          <Link to="/upload" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>+ Lisää</Link>
+          <Link to="/profile" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>Profiili</Link>
+        </nav>
 
-      <Routes>
-        <Route path="/" element={<Home posts={allPosts} />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/upload" element={<Upload />} />
+        </Routes>
+      </Router>
+    </MediaProvider>
   );
 }
 
