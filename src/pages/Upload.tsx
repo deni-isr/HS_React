@@ -1,12 +1,10 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFileForm } from '../hooks/useFileForm';
 import { MediaContext } from '../contexts/MediaContext';
-import type { Post } from '../types/VisualMedia';
 
 const Upload = () => {
   const navigate = useNavigate();
-  
   const context = useContext(MediaContext);
   
   const { values, handleChange, resetForm } = useFileForm({
@@ -17,58 +15,80 @@ const Upload = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     if (!context) return;
 
-    const newPost: Post = {
+    context.addPost({
       id: Date.now(),
       url: values.url,
       caption: values.caption,
       type: values.type,
-      user: 'opiskelija_2026',
-    };
+      user: 'oma_kayttaja',
+      likes: 0
+    });
 
-
-    context.addPost(newPost);
     resetForm();
     navigate('/');
   };
 
   return (
-    <div style={{ maxWidth: '500px', margin: '20px auto', padding: '20px', border: '1px solid #ddd', borderRadius: '10px' }}>
-      <h2 style={{ textAlign: 'center' }}>Luo uusi julkaisu</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        
-        <label style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          Median tyyppi:
-          <select name="type" value={values.type} onChange={handleChange} style={{ padding: '8px' }}>
-            <option value="image">Kuva</option>
-            <option value="video">Video</option>
+    <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-xl shadow-lg border border-gray-100">
+      <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">Uusi julkaisu</h2>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {values.url && (
+          <div className="w-full aspect-square rounded-lg overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200">
+            {values.type === 'image' ? (
+              <img src={values.url} alt="Preview" className="w-full h-full object-cover" />
+            ) : (
+              <video src={values.url} className="w-full h-full object-cover" />
+            )}
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-gray-600">Median tyyppi</label>
+          <select 
+            name="type" 
+            value={values.type} 
+            onChange={handleChange}
+            className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+          >
+            <option value="image">📸 Kuva</option>
+            <option value="video">🎥 Video</option>
           </select>
-        </label>
+        </div>
 
-        <input
-          name="url"
-          type="text"
-          placeholder="Kuvan tai videon URL-osoite"
-          value={values.url}
-          onChange={handleChange}
-          required
-          style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-gray-600">Media URL</label>
+          <input
+            name="url"
+            type="text"
+            placeholder="Liitä kuvan tai videon linkki..."
+            value={values.url}
+            onChange={handleChange}
+            required
+            className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+        </div>
 
-        <input
-          name="caption"
-          type="text"
-          placeholder="Kirjoita kuvateksti..."
-          value={values.caption}
-          onChange={handleChange}
-          required
-          style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-gray-600">Kuvateksti</label>
+          <input
+            name="caption"
+            type="text"
+            placeholder="Kirjoita jotain..."
+            value={values.caption}
+            onChange={handleChange}
+            required
+            className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+        </div>
 
-        <button type="submit" style={{ padding: '12px', background: '#0095f6', color: 'white', border: 'none', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>
-          Julkaise
+        <button 
+          type="submit" 
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-colors shadow-md active:transform active:scale-95"
+        >
+          Jaa postaus
         </button>
       </form>
     </div>
