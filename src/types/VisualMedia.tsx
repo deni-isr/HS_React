@@ -4,4 +4,5 @@ export interface Post {
   url: string;
   user: string;
   caption: string;
+  likes: number;
 }
