@@ -1,17 +1,13 @@
-import { useContext } from 'react';
-import { MediaContext } from '../contexts/MediaContext';
+import { useMediaStore } from '../store/useMediaStore';
 import PostCard from '../components/PostCard';
 
 const Home = () => {
-  const context = useContext(MediaContext);
-
-  if (!context) return <p>Ladataan...</p>;
+  const posts = useMediaStore((state) => state.posts);
 
   return (
-    <div>
-      <h2 style={{ textAlign: 'center' }}>Etusivu</h2>
-      {context.posts.map((item) => (
-        <PostCard key={item.id} post={item} />
+    <div className="container mx-auto">
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post} />
       ))}
     </div>
   );
