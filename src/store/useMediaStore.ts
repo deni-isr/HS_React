@@ -1,37 +1,30 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { Post } from '../types/VisualMedia';
+import type { MediaItem } from '../types/VisualMedia';
 
 interface MediaState {
-  posts: Post[];
-  addPost: (newPost: Post) => void;
-  handleLike: (id: number) => void;
+  media: MediaItem[];
+  loading: boolean;
+  error: string | null;
+  fetchMedia: () => Promise<void>;
 }
 
-export const useMediaStore = create<MediaState>()(
-  persist(
-    (set) => ({
-      posts: [
-        {
-          id: 1,
-          type: 'image',
-          url: 'https://picsum.photos/450/450',
-          user: 'deni_zustand',
-          caption: 'Nyt käytössä Zustand!',
-          likes: 0
-        }
-      ],
-      addPost: (newPost) => 
-        set((state) => ({ posts: [newPost, ...state.posts] })),
-      handleLike: (id) =>
-        set((state) => ({
-          posts: state.posts.map((post) =>
-            post.id === id ? { ...post, likes: post.likes + 1 } : post
-          ),
-        })),
-    }),
-    {
-      name: 'media-storage',
+const API_URL = 'https://m-alapi.vercel.app/api/v1';
+
+export const useMediaStore = create<MediaState>((set) => ({
+  media: [],
+  loading: false,
+  error: null,
+
+  fetchMedia: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await fetch(`${API_URL}/media`);
+      if (!response.ok) throw new Error('Failed to fetch media');
+      
+      const data = await response.json();
+      set({ media: data, loading: false });
+    } catch (err) {
+      set({ error: (err as Error).message, loading: false });
     }
-  )
-);
+  },
+}));
