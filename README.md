@@ -1,3 +1,3 @@
-# Week 2
+# Week 3-4 
 
-Linkki demo: []()
+Linkki demo: [linkki]()
