@@ -1,7 +1,8 @@
 import { useMediaStore } from '../store/useMediaStore';
-import type { MediaItem } from '../types/VisualMedia';
+import type { MediaItem } from '../types/VisualMedia'; 
 
-const PostCard = ({ post }: { post: any }) => { 
+
+const PostCard = ({ post }: { post: MediaItem & { type?: string, url?: string, user?: string, caption?: string, likes?: number } }) => { 
   const handleLike = useMediaStore((state) => state.handleLike);
 
   const isVideo = post.media_type?.includes('video') || post.type === 'video';
@@ -26,13 +27,13 @@ const PostCard = ({ post }: { post: any }) => {
       <div className="p-4">
         <div className="flex items-center gap-4 mb-3">
           <button 
-            onClick={() => handleLike(post.media_id || post.id)}
+            onClick={() => handleLike(post.media_id || (post as any).id)}
             className="hover:scale-125 transition-transform duration-200 active:scale-90"
           >
             <span className="text-2xl text-red-500">❤️</span>
           </button>
           <span className="font-bold text-sm">
-            {(post.likesCount || post.likes || 0)} tykkäystä
+            {(post.likesCount || (post as any).likes || 0)} tykkäystä
           </span>
         </div>
         
